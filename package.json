@@ -1,0 +1,26 @@
+{
+    "name": "sld2mapnik",
+    "version": "0.1",
+    "description": "SLD mapnik",
+    "keywords": ["mapnik", "sld", "geo"],
+    "homepage": "https://github.com/orfon/sld2mapnik/",
+    "author": {
+        "name": "Simon Oberhammer",
+        "email": "simon@nekapuzer.at",
+        "web": "http://github.com/orfon/"
+    },
+    "contributors": [],
+    "repositories": [{
+        "type": "git",
+        "url": "https://github.com/orfon/sld2mapnik.git"
+    }],
+    "bugs": "http://github.com/orfon/sld2mapnik/issues",
+    "licenses": [{
+        "type": "Apache License Version 2.0",
+        "url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+    }],
+    "engines": {
+        "ringojs": ">= 0.11"
+    },
+    "main": "./lib/map"
+}
