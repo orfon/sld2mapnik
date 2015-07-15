@@ -189,6 +189,39 @@ var ruleFixtures = [
          <PolygonSymbolizer fill=\"#fff5f0\" fill-opacity=\"0.96\"/>\
          <LineSymbolizer stroke=\"#000000\" stroke-dasharray=\"1, 2\" stroke-opacity=\"0.96\" stroke-width=\"0.26\"/>\
          </Rule>'
+   },
+   {
+      input: '<se:Rule>\
+          <se:Name> 36.4 - 48.5 </se:Name>\
+          <se:Description>\
+            <se:Title> 36.4 - 48.5 </se:Title>\
+          </se:Description>\
+          <se:PolygonSymbolizer>\
+            <se:Fill>\
+              <se:SvgParameter name="fill">#fff5f0</se:SvgParameter>\
+              <se:SvgParameter name="fill-opacity">0.96</se:SvgParameter>\
+            </se:Fill>\
+            <se:Stroke>\
+              <se:SvgParameter name="stroke">#000000</se:SvgParameter>\
+              <se:SvgParameter name="stroke-opacity">0.96</se:SvgParameter>\
+              <se:SvgParameter name="stroke-width">0.26</se:SvgParameter>\
+              <se:SvgParameter name="stroke-dasharray">1 2</se:SvgParameter>\
+            </se:Stroke>\
+          </se:PolygonSymbolizer>\
+        </se:Rule>',
+      output: {
+         "filter": null,
+         "symbolizer": $o.merge({
+           "color": "#000000",
+           "weight": 0.26,
+           "fillOpacity": 0.96,
+           "fillColor": "#fff5f0",
+           "strokeOpacity": 0.96,
+           "strokeDashstyle": "solid",
+           "dashArray": "1, 2",
+         }, defaultStyle),
+      },
+      mapnikOutput: '<?xml version=\"1.0\" encoding=\"UTF-8\"?><Rule><PolygonSymbolizer fill=\"#fff5f0\" fill-opacity=\"0.96\"/><LineSymbolizer stroke=\"#000000\" stroke-dasharray=\"1, 2\" stroke-opacity=\"0.96\" stroke-width=\"0.26\"/></Rule>'
    }
 ];
 
