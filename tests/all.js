@@ -13,13 +13,15 @@ var xmlSuffix = '</FakeWrapper>';
 
 var symbolizerFixtures = [
    {
-      input: '<se:Fill>\
+      input: '<se:PolygonSymbolizer>\
+         <se:Fill>\
          <se:SvgParameter name="fill">#fff5f0</se:SvgParameter>\
          </se:Fill>\
          <se:Stroke>\
          <se:SvgParameter name="stroke">#00ff00</se:SvgParameter>\
          <se:SvgParameter name="stroke-width">0.26</se:SvgParameter>\
-         </se:Stroke>',
+         </se:Stroke>\
+         </se:PolygonSymbolizer>',
       output: $o.merge({
         fillColor: "#fff5f0",
         color: "#00ff00",
@@ -31,12 +33,12 @@ var symbolizerFixtures = [
       ]
    },
    {
-      input: '<se:Stroke>\
+      input: '<se:PolygonSymbolizer><se:Stroke>\
          <se:SvgParameter name="stroke">#ff0000</se:SvgParameter>\
          <se:SvgParameter name="stroke-width">0.26</se:SvgParameter>\
          <se:SvgParameter name="stroke-linejoin">bevel</se:SvgParameter>\
          <se:SvgParameter name="stroke-linecap">square</se:SvgParameter>\
-         </se:Stroke>',
+         </se:Stroke></se:PolygonSymbolizer>',
       output: $o.merge({
          color: '#ff0000',
          weight: 0.26,
@@ -49,7 +51,7 @@ var symbolizerFixtures = [
       ]
    },
    {
-      input: '<se:Fill>\
+      input: '<se:PolygonSymbolizer><se:Fill>\
          <se:SvgParameter name="fill">#fff5f0</se:SvgParameter>\
          <se:SvgParameter name="fill-opacity">0.96</se:SvgParameter>\
          </se:Fill>\
@@ -58,7 +60,7 @@ var symbolizerFixtures = [
          <se:SvgParameter name="stroke-opacity">0.96</se:SvgParameter>\
          <se:SvgParameter name="stroke-width">0.26</se:SvgParameter>\
          <se:SvgParameter name="stroke-dasharray">1 2</se:SvgParameter>\
-         </se:Stroke>',
+         </se:Stroke></se:PolygonSymbolizer>',
       output: $o.merge({
          color: "#000000",
          fillColor: '#fff5f0',
@@ -71,6 +73,31 @@ var symbolizerFixtures = [
          '<?xml version=\"1.0\" encoding=\"UTF-8\"?><PolygonSymbolizer fill=\"#fff5f0\" fill-opacity=\"0.96\"/>',
          '<?xml version=\"1.0\" encoding=\"UTF-8\"?><LineSymbolizer stroke=\"#000000\" stroke-dasharray=\"1, 2\" stroke-opacity=\"0.96\" stroke-width=\"0.26\"/>'
       ]
+   },
+   {
+      input: '<se:PointSymbolizer>\
+         <se:Graphic>\
+           <se:Mark>\
+             <se:WellKnownName>circle</se:WellKnownName>\
+             <se:Fill>\
+               <se:SvgParameter name="fill">#93ebe0</se:SvgParameter>\
+             </se:Fill>\
+             <se:Stroke>\
+               <se:SvgParameter name="stroke">#000000</se:SvgParameter>\
+             </se:Stroke>\
+           </se:Mark>\
+           <se:Size>2</se:Size>\
+         </se:Graphic>\
+       </se:PointSymbolizer>',
+       output: $o.merge({
+         type: 'point',
+         fillColor: '#93ebe0',
+         color: '#000000',
+         image: 'circle'
+       }, defaultStyle),
+       mapnikOutput: [
+         '<?xml version=\"1.0\" encoding=\"UTF-8\"?><MarkersSymbolizer fill=\"#93ebe0\" fill-opacity=\"1\" stroke=\"#000000\" stroke-opacity=\"1\" stroke-width=\"5\"/>'
+       ]
    }
 ];
 
@@ -226,14 +253,15 @@ var ruleFixtures = [
 ];
 
 
-var sldFixture = [[{"filter":{"operator":"and","comparisions":[{"operator":">","property":"PR_AUT","literal":"36.36"},{"operator":"<=","property":"PR_AUT","literal":"48.464"}]},"symbolizer":{"stroke":true,"color":"#000000","weight":0.26,"opacity":1,"fillOpacity":0.96,"fillColor":"#fff5f0","strokeOpacity":0.96,"strokeDashstyle":"solid","pointRadius":3,"dashArray":"1, 2","lineJoin":null,"lineCap":null}},{"filter":{"operator":"and","comparisions":[{"operator":">","property":"PR_AUT","literal":"48.464"},{"operator":"<=","property":"PR_AUT","literal":"60.568"}]},"symbolizer":{"stroke":true,"color":"#000000","weight":0.26,"opacity":1,"fillOpacity":1,"fillColor":"#fcbda4","strokeOpacity":1,"strokeDashstyle":"solid","pointRadius":3,"dashArray":null,"lineJoin":null,"lineCap":null}},{"filter":{"operator":"and","comparisions":[{"operator":">","property":"PR_AUT","literal":"60.568"},{"operator":"<=","property":"PR_AUT","literal":"72.672"}]},"symbolizer":{"stroke":true,"color":"#000000","weight":0.26,"opacity":1,"fillOpacity":1,"fillColor":"#fb7050","strokeOpacity":1,"strokeDashstyle":"solid","pointRadius":3,"dashArray":null,"lineJoin":null,"lineCap":null}},{"filter":{"operator":"and","comparisions":[{"operator":">","property":"PR_AUT","literal":"72.672"},{"operator":"<=","property":"PR_AUT","literal":"84.776"}]},"symbolizer":{"stroke":true,"color":"#000000","weight":0.26,"opacity":1,"fillOpacity":1,"fillColor":"#d32020","strokeOpacity":1,"strokeDashstyle":"solid","pointRadius":3,"dashArray":null,"lineJoin":null,"lineCap":null}},{"filter":{"operator":"and","comparisions":[{"operator":">","property":"PR_AUT","literal":"84.776"},{"operator":"<=","property":"PR_AUT","literal":"96.88"}]},"symbolizer":{"stroke":true,"color":"#000000","weight":0.26,"opacity":1,"fillOpacity":1,"fillColor":"#67000d","strokeOpacity":1,"strokeDashstyle":"solid","pointRadius":3,"dashArray":null,"lineJoin":null,"lineCap":null}}]];
+var sldFixture = [ [ { "filter": { "operator": "and", "comparisions": [ { "operator": ">", "property": "PR_AUT", "literal": "36.36" }, { "operator": "<=", "property": "PR_AUT", "literal": "48.464" } ] }, "symbolizer": { "stroke": true, "type": "polygon", "color": "#000000", "weight": 0.26, "opacity": 1, "fillOpacity": 0.96, "fillColor": "#fff5f0", "strokeOpacity": 0.96, "strokeDashstyle": "solid", "pointRadius": 3, "dashArray": "1, 2", "lineJoin": null, "lineCap": null } }, { "filter": { "operator": "and", "comparisions": [ { "operator": ">", "property": "PR_AUT", "literal": "48.464" }, { "operator": "<=", "property": "PR_AUT", "literal": "60.568" } ] }, "symbolizer": { "stroke": true, "type": "polygon", "color": "#000000", "weight": 0.26, "opacity": 1, "fillOpacity": 1, "fillColor": "#fcbda4", "strokeOpacity": 1, "strokeDashstyle": "solid", "pointRadius": 3, "dashArray": null, "lineJoin": null, "lineCap": null } }, { "filter": { "operator": "and", "comparisions": [ { "operator": ">", "property": "PR_AUT", "literal": "60.568" }, { "operator": "<=", "property": "PR_AUT", "literal": "72.672" } ] }, "symbolizer": { "stroke": true, "type": "polygon", "color": "#000000", "weight": 0.26, "opacity": 1, "fillOpacity": 1, "fillColor": "#fb7050", "strokeOpacity": 1, "strokeDashstyle": "solid", "pointRadius": 3, "dashArray": null, "lineJoin": null, "lineCap": null } }, { "filter": { "operator": "and", "comparisions": [ { "operator": ">", "property": "PR_AUT", "literal": "72.672" }, { "operator": "<=", "property": "PR_AUT", "literal": "84.776" } ] }, "symbolizer": { "stroke": true, "type": "polygon", "color": "#000000", "weight": 0.26, "opacity": 1, "fillOpacity": 1, "fillColor": "#d32020", "strokeOpacity": 1, "strokeDashstyle": "solid", "pointRadius": 3, "dashArray": null, "lineJoin": null, "lineCap": null } }, { "filter": { "operator": "and", "comparisions": [ { "operator": ">", "property": "PR_AUT", "literal": "84.776" }, { "operator": "<=", "property": "PR_AUT", "literal": "96.88" } ] }, "symbolizer": { "stroke": true, "type": "polygon", "color": "#000000", "weight": 0.26, "opacity": 1, "fillOpacity": 1, "fillColor": "#67000d", "strokeOpacity": 1, "strokeDashstyle": "solid", "pointRadius": 3, "dashArray": null, "lineJoin": null, "lineCap": null } } ] ];
 
 
 exports.testReadSymbolizer = function() {
-   symbolizerFixtures.forEach(function(fixture) {
+   symbolizerFixtures.forEach(function(fixture, idx) {
       var input = xmlPrefix + fixture.input + xmlSuffix;
       var xmlDoc = xmlFromString(input);
-      assert.deepEqual(sldreader.parseSymbolizer(xmlDoc), fixture.output);
+      var $symbolizer = xmlDoc.getElementsByTagName('FakeWrapper').item(0).getChildNodes().item(0);
+      assert.deepEqual(sldreader.parseSymbolizer($symbolizer), fixture.output);
    })
 };
 
