@@ -2,7 +2,43 @@
 
 `sldreader` parses SLD style files into an intermediate object representation which can be turned into mapnik.xml with the `mapnikwriter`.
 
-See the unit tests for the format of the intermediate object representation.
+If you are familiar with mapnik's XML or SLD, the intermediate representation should be self explanatory.
+
+For example a styling Rule with two AND comparisions and a polygon symbolizer might look like this:
+
+    {
+      filter: {
+         operator: 'and',
+         comparisions: [
+            {
+               operator: '>',
+               property: 'republicanVotes',
+               literal: "36.36"
+            },
+            {
+               operator: '<=',
+               property: 'republicanVotes',
+               literal: "48.464"
+            }
+         ]
+      },
+      symbolizer: {
+         type: 'polygon',
+         color: "#000000",
+         fillColor: '#fff5f0',
+         fillOpacity: 0.96,
+         weight: 0.26,
+         dashArray: '1, 2',
+         strokeOpacity: 0.96
+      }
+    },
+
+
+Helpful links:
+
+ * [Mapnik XML reference](https://github.com/mapnik/mapnik/wiki/XMLConfigReference)
+ * [SLD introduction](http://docs.geoserver.org/stable/en/user/styling/sld-introduction.html)
+ * [SLD spec](http://www.opengeospatial.org/standards/sld)
 
 ## Supported SLD concepts
 
@@ -17,7 +53,7 @@ The following comparisions are possible in rules:
  * ogc:PropertyIsLessThanOrEqualTo
  * ogc:PropertyIsGreaterThanOrEqualTo
 
-The following PolygonSymbolizer properties are applied:
+The following PolygonSymbolizer or PointSymbolizer properties are applied:
 
  * stroke
  * stroke-width
@@ -31,5 +67,4 @@ The following PolygonSymbolizer properties are applied:
 
 To be done:
 
- * Symbolizers beside Polygon
- * more styling properties and comparisions
+ * Better PointSymbolizer support
