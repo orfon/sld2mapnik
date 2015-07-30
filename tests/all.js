@@ -93,11 +93,30 @@ var symbolizerFixtures = [
          type: 'point',
          fillColor: '#93ebe0',
          color: '#000000',
-         image: 'circle'
+         size: 7
        }, defaultStyle),
        mapnikOutput: [
-         '<?xml version=\"1.0\" encoding=\"UTF-8\"?><MarkersSymbolizer fill=\"#93ebe0\" fill-opacity=\"1\" stroke=\"#000000\" stroke-opacity=\"1\" stroke-width=\"5\"/>'
+         "<?xml version=\"1.0\" encoding=\"UTF-8\"?><MarkersSymbolizer fill=\"#93ebe0\" fill-opacity=\"1\" height=\"7\" stroke=\"#000000\" stroke-opacity=\"1\" stroke-width=\"1\" width=\"7\"/>"
        ]
+   },
+   {
+      input: '<se:PointSymbolizer>\
+      <se:Graphic>\
+        <se:ExternalGraphic>\
+          <se:OnlineResource xlink:type="simple" xlink:href="../../Downloads/B_24x24.svg"/>\
+          <se:Format>image/svg+xml</se:Format>\
+        </se:ExternalGraphic>\
+        <se:Size>10</se:Size>\
+      </se:Graphic>\
+    </se:PointSymbolizer>',
+    output: $o.merge({
+      type: 'point',
+      file: 'B_24x24.svg',
+      size: 38
+    }, defaultStyle),
+    mapnikOutput: [
+      "<?xml version=\"1.0\" encoding=\"UTF-8\"?><MarkersSymbolizer file=\"B_24x24.svg\" fill-opacity=\"1\" height=\"38\" stroke=\"#03f\" stroke-opacity=\"1\" stroke-width=\"1\" width=\"38\"/>"
+    ]
    }
 ];
 
