@@ -101,22 +101,42 @@ var symbolizerFixtures = [
    },
    {
       input: '<se:PointSymbolizer>\
-      <se:Graphic>\
-        <se:ExternalGraphic>\
-          <se:OnlineResource xlink:type="simple" xlink:href="../../Downloads/B_24x24.svg"/>\
-          <se:Format>image/svg+xml</se:Format>\
-        </se:ExternalGraphic>\
-        <se:Size>10</se:Size>\
-      </se:Graphic>\
-    </se:PointSymbolizer>',
-    output: $o.merge({
-      type: 'point',
-      file: 'B_24x24.svg',
-      size: 38
-    }, defaultStyle),
-    mapnikOutput: [
-      "<?xml version=\"1.0\" encoding=\"UTF-8\"?><MarkersSymbolizer file=\"B_24x24.svg\" fill-opacity=\"1\" height=\"38\" stroke=\"#03f\" stroke-opacity=\"1\" stroke-width=\"1\" width=\"38\"/>"
-    ]
+         <se:Graphic>\
+         <se:ExternalGraphic>\
+         <se:OnlineResource xlink:type="simple" xlink:href="../../Downloads/B_24x24.svg"/>\
+         <se:Format>image/svg+xml</se:Format>\
+         </se:ExternalGraphic>\
+         <se:Size>10</se:Size>\
+         </se:Graphic>\
+         </se:PointSymbolizer>',
+      output: $o.merge({
+         type: 'point',
+         file: 'B_24x24.svg',
+         size: 38
+      }, defaultStyle),
+      mapnikOutput: [
+         "<?xml version=\"1.0\" encoding=\"UTF-8\"?><MarkersSymbolizer file=\"B_24x24.svg\" fill-opacity=\"1\" height=\"38\" stroke=\"#03f\" stroke-opacity=\"1\" stroke-width=\"1\" width=\"38\"/>"
+      ]
+   },
+   {
+      input: '<se:LineSymbolizer>\
+            <se:Stroke>\
+              <se:SvgParameter name="stroke">#e31a1c</se:SvgParameter>\
+              <se:SvgParameter name="stroke-width">2</se:SvgParameter>\
+              <se:SvgParameter name="stroke-linejoin">bevel</se:SvgParameter>\
+              <se:SvgParameter name="stroke-linecap">square</se:SvgParameter>\
+            </se:Stroke>\
+          </se:LineSymbolizer>',
+      output: $o.merge({
+         type: 'line',
+         color: '#e31a1c',
+         weight: 2,
+         lineJoin: 'bevel',
+         lineCap: 'square'
+      }, defaultStyle),
+      mapnikOutput: [
+         '<?xml version=\"1.0\" encoding=\"UTF-8\"?><LineSymbolizer fill=\"#03f\" fill-opacity=\"1\" stroke=\"#e31a1c\" stroke-linecap=\"square\" stroke-linejoin=\"bevel\" stroke-opacity=\"1\" stroke-width=\"2\"/>'
+      ]
    }
 ];
 
