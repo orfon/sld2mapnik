@@ -1,3 +1,9 @@
+# What is this?
+
+[SLD](http://docs.geoserver.org/latest/en/user/styling/sld-introduction.html) ("Styled Layer Descriptor") is a XML markup language to store the styling of geospatial data. It's an increasingly popular format to export styling and used by desktop and web GIS clients alike. 
+
+This library converts the SLD format into the Mapnik styling format. [Mapnik](https://github.com/mapnik/mapnik/wiki/About-Mapnik) is a popular renderer for styled geospatial data.
+
 # Convert SLD styling files into mapnik.xml
 
 `sldreader` parses SLD style files into an intermediate object representation which can be turned into mapnik.xml with the `mapnikwriter`.

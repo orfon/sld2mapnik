@@ -1,7 +1,7 @@
 {
     "name": "sld2mapnik",
     "version": "0.1",
-    "description": "SLD mapnik",
+    "description": "Converts SLD XMLs into mapnik styling files.",
     "keywords": ["mapnik", "sld", "geo"],
     "homepage": "https://github.com/orfon/sld2mapnik/",
     "author": {
