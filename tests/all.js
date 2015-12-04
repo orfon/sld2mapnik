@@ -3,7 +3,6 @@ var fs = require('fs');
 var $o = require('ringo/utils/objects');
 
 var sldreader = require('../lib/sldreader');
-var {defaultStyle} = require('../lib/sldreader');
 var {xmlFromString, xmlToString} = require('../lib/utils');
 var {MapnikWriter} = require("../lib/mapnikwriter");
 
@@ -22,14 +21,15 @@ var symbolizerFixtures = [
          <se:SvgParameter name="stroke-width">0.26</se:SvgParameter>\
          </se:Stroke>\
          </se:PolygonSymbolizer>',
-      output: $o.merge({
+      output: {
+        type: 'polygon',
         fillColor: "#fff5f0",
         color: "#00ff00",
         weight: 0.26,
-      }, defaultStyle),
+      },
       mapnikOutput: [
-         '<?xml version=\"1.0\" encoding=\"UTF-8\"?><PolygonSymbolizer fill=\"#fff5f0\" fill-opacity=\"1\"/>',
-         '<?xml version=\"1.0\" encoding=\"UTF-8\"?><LineSymbolizer stroke=\"#00ff00\" stroke-opacity=\"1\" stroke-width=\"0.26\"/>'
+         '<?xml version=\"1.0\" encoding=\"UTF-8\"?><PolygonSymbolizer fill=\"#fff5f0\"/>',
+         '<?xml version=\"1.0\" encoding=\"UTF-8\"?><LineSymbolizer stroke=\"#00ff00\" stroke-width=\"0.26\"/>'
       ]
    },
    {
@@ -39,15 +39,16 @@ var symbolizerFixtures = [
          <se:SvgParameter name="stroke-linejoin">bevel</se:SvgParameter>\
          <se:SvgParameter name="stroke-linecap">square</se:SvgParameter>\
          </se:Stroke></se:PolygonSymbolizer>',
-      output: $o.merge({
+      output: {
+         type: 'polygon',
          color: '#ff0000',
          weight: 0.26,
          lineJoin: 'bevel',
          lineCap: 'square'
-      }, defaultStyle),
+      },
       mapnikOutput: [
-         '<?xml version=\"1.0\" encoding=\"UTF-8\"?><PolygonSymbolizer fill=\"#03f\" fill-opacity=\"1\"/>',
-         '<?xml version=\"1.0\" encoding=\"UTF-8\"?><LineSymbolizer stroke=\"#ff0000\" stroke-linecap=\"square\" stroke-linejoin=\"bevel\" stroke-opacity=\"1\" stroke-width=\"0.26\"/>'
+         '<?xml version=\"1.0\" encoding=\"UTF-8\"?><PolygonSymbolizer/>',
+         '<?xml version=\"1.0\" encoding=\"UTF-8\"?><LineSymbolizer stroke=\"#ff0000\" stroke-linecap=\"square\" stroke-linejoin=\"bevel\" stroke-width=\"0.26\"/>'
       ]
    },
    {
@@ -61,14 +62,15 @@ var symbolizerFixtures = [
          <se:SvgParameter name="stroke-width">0.26</se:SvgParameter>\
          <se:SvgParameter name="stroke-dasharray">1 2</se:SvgParameter>\
          </se:Stroke></se:PolygonSymbolizer>',
-      output: $o.merge({
+      output: {
+         type: 'polygon',
          color: "#000000",
          fillColor: '#fff5f0',
          fillOpacity: 0.96,
          weight: 0.26,
          dashArray: '1, 2',
          strokeOpacity: 0.96
-      }, defaultStyle),
+      },
       mapnikOutput: [
          '<?xml version=\"1.0\" encoding=\"UTF-8\"?><PolygonSymbolizer fill=\"#fff5f0\" fill-opacity=\"0.96\"/>',
          '<?xml version=\"1.0\" encoding=\"UTF-8\"?><LineSymbolizer stroke=\"#000000\" stroke-dasharray=\"1, 2\" stroke-opacity=\"0.96\" stroke-width=\"0.26\"/>'
@@ -89,14 +91,14 @@ var symbolizerFixtures = [
            <se:Size>2</se:Size>\
          </se:Graphic>\
        </se:PointSymbolizer>',
-       output: $o.merge({
+       output: {
          type: 'point',
          fillColor: '#93ebe0',
          color: '#000000',
          size: 7
-       }, defaultStyle),
+       },
        mapnikOutput: [
-         "<?xml version=\"1.0\" encoding=\"UTF-8\"?><MarkersSymbolizer fill=\"#93ebe0\" fill-opacity=\"1\" height=\"7\" stroke=\"#000000\" stroke-opacity=\"1\" stroke-width=\"1\" width=\"7\"/>"
+         "<?xml version=\"1.0\" encoding=\"UTF-8\"?><MarkersSymbolizer fill=\"#93ebe0\" height=\"7\" stroke=\"#000000\" width=\"7\"/>"
        ]
    },
    {
@@ -109,13 +111,13 @@ var symbolizerFixtures = [
          <se:Size>10</se:Size>\
          </se:Graphic>\
          </se:PointSymbolizer>',
-      output: $o.merge({
+      output: {
          type: 'point',
          file: 'B_24x24.svg',
          size: 38
-      }, defaultStyle),
+      },
       mapnikOutput: [
-         "<?xml version=\"1.0\" encoding=\"UTF-8\"?><MarkersSymbolizer file=\"B_24x24.svg\" fill-opacity=\"1\" height=\"38\" stroke=\"#03f\" stroke-opacity=\"1\" stroke-width=\"1\" width=\"38\"/>"
+         "<?xml version=\"1.0\" encoding=\"UTF-8\"?><MarkersSymbolizer file=\"B_24x24.svg\" height=\"38\" width=\"38\"/>"
       ]
    },
    {
@@ -127,15 +129,15 @@ var symbolizerFixtures = [
               <se:SvgParameter name="stroke-linecap">square</se:SvgParameter>\
             </se:Stroke>\
           </se:LineSymbolizer>',
-      output: $o.merge({
+      output: {
          type: 'line',
          color: '#e31a1c',
          weight: 2,
          lineJoin: 'bevel',
          lineCap: 'square'
-      }, defaultStyle),
+      },
       mapnikOutput: [
-         '<?xml version=\"1.0\" encoding=\"UTF-8\"?><LineSymbolizer fill=\"#03f\" fill-opacity=\"1\" stroke=\"#e31a1c\" stroke-linecap=\"square\" stroke-linejoin=\"bevel\" stroke-opacity=\"1\" stroke-width=\"2\"/>'
+         '<?xml version=\"1.0\" encoding=\"UTF-8\"?><LineSymbolizer stroke=\"#e31a1c\" stroke-linecap=\"square\" stroke-linejoin=\"bevel\" stroke-width=\"2\"/>'
       ]
    }
 ];
@@ -241,14 +243,15 @@ var ruleFixtures = [
                }
             ]
          },
-         symbolizer: $o.merge({
-            color: "#000000",
-            fillColor: '#fff5f0',
+         symbolizer: {
+            type: "polygon",
+            fillColor: "#fff5f0",
             fillOpacity: 0.96,
+            color: "#000000",
+            strokeOpacity: 0.96,
             weight: 0.26,
-            dashArray: '1, 2',
-            strokeOpacity: 0.96
-         }, defaultStyle)
+            dashArray: "1, 2"
+         }
       },
       mapnikOutput: '<?xml version=\"1.0\" encoding=\"UTF-8\"?>\
          <Rule><Filter>[PR_AUT] &gt; 36.36 and [PR_AUT] &lt;= 48.464</Filter>\
@@ -277,22 +280,22 @@ var ruleFixtures = [
         </se:Rule>',
       output: {
          "filter": null,
-         "symbolizer": $o.merge({
-           "color": "#000000",
-           "weight": 0.26,
-           "fillOpacity": 0.96,
-           "fillColor": "#fff5f0",
-           "strokeOpacity": 0.96,
-           "strokeDashstyle": "solid",
-           "dashArray": "1, 2",
-         }, defaultStyle),
+         "symbolizer": {
+           type: "polygon",
+           fillColor: "#fff5f0",
+           fillOpacity: 0.96,
+           color: "#000000",
+           strokeOpacity: 0.96,
+           weight: 0.26,
+           dashArray: "1, 2"
+         },
       },
       mapnikOutput: '<?xml version=\"1.0\" encoding=\"UTF-8\"?><Rule><PolygonSymbolizer fill=\"#fff5f0\" fill-opacity=\"0.96\"/><LineSymbolizer stroke=\"#000000\" stroke-dasharray=\"1, 2\" stroke-opacity=\"0.96\" stroke-width=\"0.26\"/></Rule>'
    }
 ];
 
 
-var sldFixture = [ [ { "filter": { "operator": "and", "comparisions": [ { "operator": ">", "property": "PR_AUT", "literal": "36.36" }, { "operator": "<=", "property": "PR_AUT", "literal": "48.464" } ] }, "symbolizer": { "stroke": true, "type": "polygon", "color": "#000000", "weight": 0.26, "opacity": 1, "fillOpacity": 0.96, "fillColor": "#fff5f0", "strokeOpacity": 0.96, "strokeDashstyle": "solid", "pointRadius": 3, "dashArray": "1, 2", "lineJoin": null, "lineCap": null } }, { "filter": { "operator": "and", "comparisions": [ { "operator": ">", "property": "PR_AUT", "literal": "48.464" }, { "operator": "<=", "property": "PR_AUT", "literal": "60.568" } ] }, "symbolizer": { "stroke": true, "type": "polygon", "color": "#000000", "weight": 0.26, "opacity": 1, "fillOpacity": 1, "fillColor": "#fcbda4", "strokeOpacity": 1, "strokeDashstyle": "solid", "pointRadius": 3, "dashArray": null, "lineJoin": null, "lineCap": null } }, { "filter": { "operator": "and", "comparisions": [ { "operator": ">", "property": "PR_AUT", "literal": "60.568" }, { "operator": "<=", "property": "PR_AUT", "literal": "72.672" } ] }, "symbolizer": { "stroke": true, "type": "polygon", "color": "#000000", "weight": 0.26, "opacity": 1, "fillOpacity": 1, "fillColor": "#fb7050", "strokeOpacity": 1, "strokeDashstyle": "solid", "pointRadius": 3, "dashArray": null, "lineJoin": null, "lineCap": null } }, { "filter": { "operator": "and", "comparisions": [ { "operator": ">", "property": "PR_AUT", "literal": "72.672" }, { "operator": "<=", "property": "PR_AUT", "literal": "84.776" } ] }, "symbolizer": { "stroke": true, "type": "polygon", "color": "#000000", "weight": 0.26, "opacity": 1, "fillOpacity": 1, "fillColor": "#d32020", "strokeOpacity": 1, "strokeDashstyle": "solid", "pointRadius": 3, "dashArray": null, "lineJoin": null, "lineCap": null } }, { "filter": { "operator": "and", "comparisions": [ { "operator": ">", "property": "PR_AUT", "literal": "84.776" }, { "operator": "<=", "property": "PR_AUT", "literal": "96.88" } ] }, "symbolizer": { "stroke": true, "type": "polygon", "color": "#000000", "weight": 0.26, "opacity": 1, "fillOpacity": 1, "fillColor": "#67000d", "strokeOpacity": 1, "strokeDashstyle": "solid", "pointRadius": 3, "dashArray": null, "lineJoin": null, "lineCap": null } } ] ];
+var sldFixture = [[{"filter":{"operator":"and","comparisions":[{"operator":">","property":"PR_AUT","literal":"36.36"},{"operator":"<=","property":"PR_AUT","literal":"48.464"}]},"symbolizer":{"type":"polygon","fillColor":"#fff5f0","fillOpacity":0.96,"color":"#000000","strokeOpacity":0.96,"weight":0.26,"dashArray":"1, 2"}},{"filter":{"operator":"and","comparisions":[{"operator":">","property":"PR_AUT","literal":"48.464"},{"operator":"<=","property":"PR_AUT","literal":"60.568"}]},"symbolizer":{"type":"polygon","fillColor":"#fcbda4","color":"#000000","weight":0.26}},{"filter":{"operator":"and","comparisions":[{"operator":">","property":"PR_AUT","literal":"60.568"},{"operator":"<=","property":"PR_AUT","literal":"72.672"}]},"symbolizer":{"type":"polygon","fillColor":"#fb7050","color":"#000000","weight":0.26}},{"filter":{"operator":"and","comparisions":[{"operator":">","property":"PR_AUT","literal":"72.672"},{"operator":"<=","property":"PR_AUT","literal":"84.776"}]},"symbolizer":{"type":"polygon","fillColor":"#d32020","color":"#000000","weight":0.26}},{"filter":{"operator":"and","comparisions":[{"operator":">","property":"PR_AUT","literal":"84.776"},{"operator":"<=","property":"PR_AUT","literal":"96.88"}]},"symbolizer":{"type":"polygon","fillColor":"#67000d","color":"#000000","weight":0.26}}]];
 
 
 exports.testReadSymbolizer = function() {
