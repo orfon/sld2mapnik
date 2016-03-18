@@ -1,3 +1,5 @@
+** Obsolete repository. All functionality was merged into https://github.com/orfon/ringo-mapnik **
+
 # What is this?
 
 [SLD](http://docs.geoserver.org/latest/en/user/styling/sld-introduction.html) ("Styled Layer Descriptor") is a XML markup language to store the styling of geospatial data. It's an increasingly popular format to export styling and used by desktop and web GIS clients alike. 
